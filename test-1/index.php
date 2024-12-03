@@ -1,11 +1,13 @@
 <?php
-
-use Core\Database;
+use Models\GroupsItems;
 require './helpers.php';
-require './db/Database.php';
+require './Models/GroupItems.php';
+require './Database/Database.php';
 
-$db = new Database('mysql', 'db', 'database', 'root', 'root');
-$results = $db->query('SELECT * from groups')->get();
+
+$groupItems = new GroupsItems();
+
+$levelOneResults = $groupItems->getByIdParent(0);
 
 ?>
 
@@ -16,12 +18,17 @@ $results = $db->query('SELECT * from groups')->get();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 
 <body>
     <ul>
-        <?php foreach ($results as $result): ?>
-            <li> <?= htmlspecialchars($result['name']) ?> </li>
+        <?php foreach ($levelOneResults as $result): ?>
+            <li>
+                <span class="link">
+                    <?= htmlspecialchars($result['name']) ?>
+                </span>
+            </li>
         <?php endforeach; ?>
     </ul>
 </body>
